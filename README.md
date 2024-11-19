@@ -13,11 +13,16 @@
 3. Cambiar las variables de entorno.
 4. Levantar la app en modo desarrollo ``` npm run start:dev ```
 
+
 ## Base de datos.
 
 1. Levantar la base de datos
 ```
 docker-compose up -d
+```
+2. Cargar la base de datos ejecutando el SEED 
+``` 
+http://localhost:4000/api/seed 
 ```
 
 
