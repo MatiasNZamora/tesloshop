@@ -4,11 +4,12 @@ import { DataSource, Repository } from 'typeorm';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 
 import { Product } from './entities/product.entity';
 import { validate as IsUUID } from 'uuid';
 import { ProductImage } from './entities';
+import { User } from '../auth/entities/user.entity';
 
 @Injectable()
 export class ProductsService {
@@ -28,13 +29,14 @@ export class ProductsService {
     throw new InternalServerErrorException('Unexpected error check logs');
   };
 
-  async create(createProductDto: CreateProductDto) {
+  async create( createProductDto: CreateProductDto, user: User ) {
     
     try {
       const {images = [],  ...productPropertis } = createProductDto;
 
       const product = this.productRepository.create({
         ...productPropertis,
+        user,
         images: images.map( image => this.productImageRepository.create({ url: image }) )
       });
       await this.productRepository.save(product);
@@ -96,7 +98,7 @@ export class ProductsService {
     }
   };
 
-  async update( id: string, payload: UpdateProductDto) {
+  async update( id: string, payload: UpdateProductDto, user: User ) {
 
     const { images , ...toUpdate } = payload;
     
@@ -114,6 +116,7 @@ export class ProductsService {
         product.images = images.map( img => this.productImageRepository.create( { url: img } ))
       }
 
+      product.user = user;
       await queryRuner.manager.save(product);
 
       await queryRuner.commitTransaction();

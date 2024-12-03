@@ -65,12 +65,18 @@ export class AuthService {
     };
 
   };
+
+  async checkAuthStatus( user:User ) {
+    return {
+      ...user,
+      token: this.getJwToken({ id: user.id })
+    };
+  }
   
   private getJwToken ( payload: JwtPayload ){
     const token = this.jwtServide.sign( payload );
     return token;
   };
-
 
   private handleDbError (error:any): never {
     

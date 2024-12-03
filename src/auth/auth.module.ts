@@ -36,7 +36,7 @@ import { JwtStrategy } from './statrgies/jwt.strategy';
 
         return {
           secret: configService.get('JWT_SECRET'),
-          signOptions: { expiresIn: '2h' },
+          signOptions: { expiresIn: '2D' },
         };
 
       }
@@ -49,7 +49,7 @@ import { JwtStrategy } from './statrgies/jwt.strategy';
     TypeOrmModule, 
     JwtStrategy, 
     PassportModule, 
-    JwtModule 
+    JwtModule,
   ]
 
 })
