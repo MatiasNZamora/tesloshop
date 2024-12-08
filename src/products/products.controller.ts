@@ -28,6 +28,7 @@ export class ProductsController {
     return this.productsService.create( createProductDto, user );
   }
 
+  @Auth( validRoles.user)
   @Get()
   findAll(@Query() paginationDto:PaginationDto) {
     return this.productsService.findAll(paginationDto);
